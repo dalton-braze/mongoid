@@ -100,6 +100,23 @@ describe Mongoid::Criteria::Queryable::Selector do
         end
       end
 
+      context "when merging in a symbol $in with an intersecting value" do
+
+        let(:other) do
+          { "field" => { :$in => [1] } }
+        end
+
+        before do
+          selector.merge!(other)
+        end
+
+        it "intersects the $in values" do
+          expect(selector).to eq({
+                                     "field" => { "$in" => [1] }
+                                 })
+        end
+      end
+
       context "when merging in a new $in with no intersecting values" do
 
         let(:other) do
