@@ -23,7 +23,7 @@ module Mongoid
           other.each_pair do |key, value|
             if value.is_a?(Hash) && self[key.to_s].is_a?(Hash)
               value = self[key.to_s].merge(value) do |_key, old_val, new_val|
-                case _key
+                case _key.to_s
                 when '$in'
                   new_val & old_val
                 when '$nin'
@@ -211,7 +211,7 @@ module Mongoid
         #
         # @since 1.0.0
         def multi_selection?(key)
-          %w($and $or $nor).include?(key)
+          %w($and $or $nor).include?(key.to_s)
         end
       end
     end
